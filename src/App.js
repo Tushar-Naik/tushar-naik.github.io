@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useCSVReader } from 'react-papaparse';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 
 const skillLevels = ['Not that good', 'Decent', 'Good', 'Really Good'];
@@ -33,6 +33,8 @@ const TeamFormationTool = () => {
   const [numTeams, setNumTeams] = useState(2);
   const [teams, setTeams] = useState([]);
   const [error, setError] = useState('');
+  const [manualInput, setManualInput] = useState('');
+  const [isManualInputExpanded, setIsManualInputExpanded] = useState(false);
   const { CSVReader } = useCSVReader();
 
   const handleCSVUpload = useCallback((results) => {
@@ -49,9 +51,19 @@ const TeamFormationTool = () => {
     setError(`Error parsing CSV: ${error.message}`);
   }, []);
 
+  const handleManualInput = () => {
+    const lines = manualInput.split('\n').filter(line => line.trim() !== '');
+    const parsedPlayers = lines.map(line => {
+      const [fullName, preferredPosition, skillLevel] = line.split(',').map(item => item.trim());
+      return { 'Full Name': fullName, 'Preferred Position': preferredPosition, 'Skill Level': skillLevel };
+    });
+    setPlayers(parsedPlayers);
+    setError('');
+  };
+
   const handleFormTeams = () => {
     if (players.length === 0) {
-      setError('Please upload a CSV file first.');
+      setError('Please upload a CSV file or enter player data manually first.');
       return;
     }
     if (numTeams <= 0 || numTeams > players.length) {
@@ -68,6 +80,7 @@ const TeamFormationTool = () => {
         <h1 className="text-2xl font-bold mb-4">Team Formation Tool</h1>
 
         <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Upload CSV</h2>
           <CSVReader
               onUploadAccepted={handleCSVUpload}
               onUploadRejected={handleCSVError}
@@ -95,6 +108,40 @@ const TeamFormationTool = () => {
                 </>
             )}
           </CSVReader>
+        </div>
+
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Manual Input</h2>
+          <div className="flex items-center mb-2">
+            <button
+                onClick={() => setIsManualInputExpanded(!isManualInputExpanded)}
+                className="flex items-center text-blue-500 hover:text-blue-700"
+            >
+              {isManualInputExpanded ? (
+                  <>
+                    <ChevronUp className="mr-1" />
+                    Collapse
+                  </>
+              ) : (
+                  <>
+                    <ChevronDown className="mr-1" />
+                    Expand
+                  </>
+              )}
+            </button>
+          </div>
+          <textarea
+              value={manualInput}
+              onChange={(e) => setManualInput(e.target.value)}
+              className={`w-full p-2 border rounded ${isManualInputExpanded ? 'h-64' : 'h-20'}`}
+              placeholder="Enter player data here (format: Full Name, Preferred Position, Skill Level)"
+          />
+          <button
+              onClick={handleManualInput}
+              className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Process Manual Input
+          </button>
         </div>
 
         <div className="mb-4">
