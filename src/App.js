@@ -76,7 +76,7 @@ const AboutMePage = () => {
                                         </CardHeader>
                                         <CardContent>
                                             <Button onClick={() => window.location.href = project.link}>
-                                                View Project
+                                                Use Tool
                                             </Button>
                                         </CardContent>
                                     </Card>
