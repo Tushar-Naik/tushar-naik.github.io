@@ -30,6 +30,14 @@ const projects = [
     },
 ];
 
+const aboutMe = <>
+    Hello! I'm Tushar Naik, a software engineer passionate about designing scalable backend
+    systems and solving complex computing problems. I've been grateful to have worked on several challenging projects in
+    my career spanning over 10 years. I'm currently working as an Architect at <a href="https://phonepe.com">PhonePe.com</a> <br/>
+    <br/>
+    I sometimes enjoy building minimal frontend tools. The list below might find some use to you.<br/>
+</>;
+
 const AboutMePage = () => {
     const [darkMode, setDarkMode] = React.useState(false);
 
@@ -54,10 +62,7 @@ const AboutMePage = () => {
                         <section className="mb-20">
                             <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200">About Me</h2>
                             <p className="text-gray-600 dark:text-gray-300">
-                                Hello! I'm Tushar Naik, a software engineer passionate about designing scalable backend
-                                systems and solving complex computing problems.<br/>
-
-                                I sometimes enjoy building minimal frontend tools.
+                                {aboutMe}
                             </p>
                         </section>
                         <section className="mb-20">
