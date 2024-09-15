@@ -1,9 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useCSVReader } from 'react-papaparse';
-import { AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { AlertCircle, Upload, Edit3 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
-
-const skillLevels = ['Not that good', 'Decent', 'Good', 'Really Good'];
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -15,15 +13,19 @@ const shuffleArray = (array) => {
 
 const distributePlayersBySkillAndPosition = (players, numTeams) => {
   const teams = Array.from({ length: numTeams }, () => []);
+  const skillLevels = [...new Set(players.map(player => player['Skill Level']))];
+
   const playersBySkill = skillLevels.map(skill =>
-      players.filter(player => player['Skill Level'] === skill)
+      shuffleArray(players.filter(player => player['Skill Level'] === skill))
   );
 
-  playersBySkill.forEach(skillGroup => {
-    shuffleArray(skillGroup).forEach((player, index) => {
-      teams[index % numTeams].push(player);
-    });
-  });
+  let currentTeamIndex = 0;
+  const flattenedPlayers = playersBySkill.flat();
+
+  for (let i = 0; i < flattenedPlayers.length; i++) {
+    teams[currentTeamIndex].push(flattenedPlayers[i]);
+    currentTeamIndex = (currentTeamIndex + 1) % numTeams;
+  }
 
   return teams;
 };
@@ -34,8 +36,13 @@ const TeamFormationTool = () => {
   const [teams, setTeams] = useState([]);
   const [error, setError] = useState('');
   const [manualInput, setManualInput] = useState('');
-  const [isManualInputExpanded, setIsManualInputExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState(null);
   const { CSVReader } = useCSVReader();
+
+  const skillLevels = useMemo(() =>
+          [...new Set(players.map(player => player['Skill Level']))],
+      [players]
+  );
 
   const handleCSVUpload = useCallback((results) => {
     const parsedPlayers = results.data.slice(1).map(row => ({
@@ -79,69 +86,72 @@ const TeamFormationTool = () => {
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Team Formation Tool</h1>
 
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold mb-2">Upload CSV</h2>
-          <CSVReader
-              onUploadAccepted={handleCSVUpload}
-              onUploadRejected={handleCSVError}
-              config={{
-                header: true,
-                dynamicTyping: true,
-                skipEmptyLines: true,
-              }}
-          >
-            {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
-                <>
-                  <div {...getRootProps()} className="border-2 border-dashed border-gray-300 p-4 text-center cursor-pointer">
-                    {acceptedFile ? (
-                        <>
-                          <div>{acceptedFile.name}</div>
-                          <button {...getRemoveFileProps()} className="text-red-500 mt-2">
-                            Remove
-                          </button>
-                        </>
-                    ) : (
-                        <span className="text-sm">Drop CSV file here or click to upload.</span>
-                    )}
-                  </div>
-                  <ProgressBar />
-                </>
-            )}
-          </CSVReader>
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold mb-2">Manual Input</h2>
-          <div className="flex items-center mb-2">
+        <div className="mb-4 flex flex-col md:flex-row">
+          <div className={`w-full md:w-1/2 p-4 transition-all duration-300 ease-in-out ${activeTab === 'csv' ? 'md:w-full' : activeTab === 'manual' ? 'md:w-[60px]' : ''}`}>
             <button
-                onClick={() => setIsManualInputExpanded(!isManualInputExpanded)}
-                className="flex items-center text-blue-500 hover:text-blue-700"
+                onClick={() => setActiveTab(activeTab === 'csv' ? null : 'csv')}
+                className={`flex items-center justify-center w-full md:w-auto p-2 rounded ${activeTab === 'csv' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
             >
-              {isManualInputExpanded ? (
-                  <>
-                    <ChevronUp className="mr-1" />
-                    Collapse
-                  </>
-              ) : (
-                  <>
-                    <ChevronDown className="mr-1" />
-                    Expand
-                  </>
-              )}
+              <Upload className="mr-2" />
+              <span className={activeTab === 'manual' ? 'hidden' : ''}>CSV Upload</span>
             </button>
+            {(activeTab === 'csv' || activeTab === null) && (
+                <div className="mt-4">
+                  <CSVReader
+                      onUploadAccepted={handleCSVUpload}
+                      onUploadRejected={handleCSVError}
+                      config={{
+                        header: true,
+                        dynamicTyping: true,
+                        skipEmptyLines: true,
+                      }}
+                  >
+                    {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
+                        <>
+                          <div {...getRootProps()} className="border-2 border-dashed border-gray-300 p-4 text-center cursor-pointer">
+                            {acceptedFile ? (
+                                <>
+                                  <div>{acceptedFile.name}</div>
+                                  <button {...getRemoveFileProps()} className="text-red-500 mt-2">
+                                    Remove
+                                  </button>
+                                </>
+                            ) : (
+                                <span className="text-sm">Drop CSV file here or click to upload.</span>
+                            )}
+                          </div>
+                          <ProgressBar />
+                        </>
+                    )}
+                  </CSVReader>
+                </div>
+            )}
           </div>
-          <textarea
-              value={manualInput}
-              onChange={(e) => setManualInput(e.target.value)}
-              className={`w-full p-2 border rounded ${isManualInputExpanded ? 'h-64' : 'h-20'}`}
-              placeholder="Enter player data here (format: Full Name, Preferred Position, Skill Level)"
-          />
-          <button
-              onClick={handleManualInput}
-              className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Process Manual Input
-          </button>
+          <div className={`w-full md:w-1/2 p-4 transition-all duration-300 ease-in-out ${activeTab === 'manual' ? 'md:w-full' : activeTab === 'csv' ? 'md:w-[60px]' : ''}`}>
+            <button
+                onClick={() => setActiveTab(activeTab === 'manual' ? null : 'manual')}
+                className={`flex items-center justify-center w-full md:w-auto p-2 rounded ${activeTab === 'manual' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+            >
+              <Edit3 className="mr-2" />
+              <span className={activeTab === 'csv' ? 'hidden' : ''}>Manual Input</span>
+            </button>
+            {(activeTab === 'manual' || activeTab === null) && (
+                <div className="mt-4">
+              <textarea
+                  value={manualInput}
+                  onChange={(e) => setManualInput(e.target.value)}
+                  className="w-full p-2 border rounded h-64"
+                  placeholder="Enter player data here (format: Full Name, Preferred Position, Skill Level)"
+              />
+                  <button
+                      onClick={handleManualInput}
+                      className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Process Manual Input
+                  </button>
+                </div>
+            )}
+          </div>
         </div>
 
         <div className="mb-4">
@@ -171,6 +181,17 @@ const TeamFormationTool = () => {
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
+        )}
+
+        {players.length > 0 && (
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold">Detected Skill Levels:</h3>
+              <ul className="list-disc list-inside">
+                {skillLevels.map((level, index) => (
+                    <li key={index}>{level}</li>
+                ))}
+              </ul>
+            </div>
         )}
 
         {teams.length > 0 && (
