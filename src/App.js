@@ -30,6 +30,13 @@ const distributePlayersBySkillAndPosition = (players, numTeams) => {
   return teams;
 };
 
+const isHeaderRow = (row) => {
+  return row.some(cell =>
+      typeof cell === 'string' &&
+      ['full name', 'preferred position', 'skill level'].includes(cell.toLowerCase().trim())
+  );
+};
+
 const TeamFormationTool = () => {
   const [players, setPlayers] = useState([]);
   const [numTeams, setNumTeams] = useState(2);
@@ -45,13 +52,22 @@ const TeamFormationTool = () => {
   );
 
   const handleCSVUpload = useCallback((results) => {
-    const parsedPlayers = results.data.slice(1).map(row => ({
+    let parsedPlayers = results.data;
+
+    // Check if the first row is a header and remove it if so
+    if (isHeaderRow(parsedPlayers[0])) {
+      parsedPlayers = parsedPlayers.slice(1);
+    }
+
+    parsedPlayers = parsedPlayers.map(row => ({
       'Full Name': row[0],
       'Preferred Position': row[1],
       'Skill Level': row[2]
     }));
+
     setPlayers(parsedPlayers);
     setError('');
+    setActiveTab('csv');
   }, []);
 
   const handleCSVError = useCallback((error) => {
@@ -60,12 +76,18 @@ const TeamFormationTool = () => {
 
   const handleManualInput = () => {
     const lines = manualInput.split('\n').filter(line => line.trim() !== '');
-    const parsedPlayers = lines.map(line => {
+
+    // Check if the first line is a header and remove it if so
+    const startIndex = isHeaderRow(lines[0].split(',')) ? 1 : 0;
+
+    const parsedPlayers = lines.slice(startIndex).map(line => {
       const [fullName, preferredPosition, skillLevel] = line.split(',').map(item => item.trim());
       return { 'Full Name': fullName, 'Preferred Position': preferredPosition, 'Skill Level': skillLevel };
     });
+
     setPlayers(parsedPlayers);
     setError('');
+    setActiveTab('manual');
   };
 
   const handleFormTeams = () => {
@@ -87,6 +109,35 @@ const TeamFormationTool = () => {
         <h1 className="text-2xl font-bold mb-4">Team Formation Tool</h1>
 
         <div className="mb-4 flex flex-col md:flex-row">
+          <div className={`w-full md:w-1/2 p-4 transition-all duration-300 ease-in-out ${activeTab === 'manual' ? 'md:w-full' : activeTab === 'csv' ? 'md:w-[60px]' : ''}`}>
+            <button
+                onClick={() => setActiveTab(activeTab === 'manual' ? null : 'manual')}
+                className={`flex items-center justify-center w-full md:w-auto p-2 rounded ${activeTab === 'manual' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+            >
+              <Edit3 className="mr-2" />
+              <span className={activeTab === 'csv' ? 'hidden' : ''}>Manual Input</span>
+            </button>
+            {(activeTab === 'manual' || activeTab === null) && (
+                <div className="mt-4">
+              <textarea
+                  value={manualInput}
+                  onChange={(e) => {
+                    setManualInput(e.target.value);
+                    setActiveTab('manual');
+                  }}
+                  onClick={() => setActiveTab('manual')}
+                  className="w-full p-2 border rounded h-64"
+                  placeholder="Enter player data here (format: Full Name, Preferred Position, Skill Level)"
+              />
+                  <button
+                      onClick={handleManualInput}
+                      className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Process Manual Input
+                  </button>
+                </div>
+            )}
+          </div>
           <div className={`w-full md:w-1/2 p-4 transition-all duration-300 ease-in-out ${activeTab === 'csv' ? 'md:w-full' : activeTab === 'manual' ? 'md:w-[60px]' : ''}`}>
             <button
                 onClick={() => setActiveTab(activeTab === 'csv' ? null : 'csv')}
@@ -101,14 +152,21 @@ const TeamFormationTool = () => {
                       onUploadAccepted={handleCSVUpload}
                       onUploadRejected={handleCSVError}
                       config={{
-                        header: true,
+                        header: false,
                         dynamicTyping: true,
                         skipEmptyLines: true,
                       }}
                   >
                     {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
                         <>
-                          <div {...getRootProps()} className="border-2 border-dashed border-gray-300 p-4 text-center cursor-pointer">
+                          <div
+                              {...getRootProps()}
+                              className="border-2 border-dashed border-gray-300 p-4 text-center cursor-pointer"
+                              onClick={(e) => {
+                                getRootProps().onClick(e);
+                                setActiveTab('csv');
+                              }}
+                          >
                             {acceptedFile ? (
                                 <>
                                   <div>{acceptedFile.name}</div>
@@ -124,31 +182,6 @@ const TeamFormationTool = () => {
                         </>
                     )}
                   </CSVReader>
-                </div>
-            )}
-          </div>
-          <div className={`w-full md:w-1/2 p-4 transition-all duration-300 ease-in-out ${activeTab === 'manual' ? 'md:w-full' : activeTab === 'csv' ? 'md:w-[60px]' : ''}`}>
-            <button
-                onClick={() => setActiveTab(activeTab === 'manual' ? null : 'manual')}
-                className={`flex items-center justify-center w-full md:w-auto p-2 rounded ${activeTab === 'manual' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
-            >
-              <Edit3 className="mr-2" />
-              <span className={activeTab === 'csv' ? 'hidden' : ''}>Manual Input</span>
-            </button>
-            {(activeTab === 'manual' || activeTab === null) && (
-                <div className="mt-4">
-              <textarea
-                  value={manualInput}
-                  onChange={(e) => setManualInput(e.target.value)}
-                  className="w-full p-2 border rounded h-64"
-                  placeholder="Enter player data here (format: Full Name, Preferred Position, Skill Level)"
-              />
-                  <button
-                      onClick={handleManualInput}
-                      className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Process Manual Input
-                  </button>
                 </div>
             )}
           </div>
