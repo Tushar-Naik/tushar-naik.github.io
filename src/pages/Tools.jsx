@@ -9,24 +9,6 @@ const tools = [
     },
 ];
 
-const projects = [
-    {
-        title: "Python UI-me",
-        description: "A simple python decorator, to build UI forms out of your everyday python functions",
-        link: "https://github.com/livetheoogway/python-uime"
-    },
-    {
-        title: "CRUD Store",
-        description: "Collection of CRUD components implementing a clean interface",
-        link: "https://github.com/livetheoogway/crud-store"
-    },
-    {
-        title: "Forage",
-        description: "In-memory Search made Easy",
-        link: "https://github.com/livetheoogway/forage"
-    },
-];
-
 const Tools = () => {
     return (
         <main className="mt-10">
@@ -34,7 +16,7 @@ const Tools = () => {
                 <h1 className="self-start text-4xl font-bold tracking-tighter leading-none">
                     Tools
                 </h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
                     {tools.map((project, index) => (
                         <Card key={index}>
                             <CardHeader>
@@ -50,26 +32,6 @@ const Tools = () => {
                     ))}
                 </div>
             </section>
-
-            <section className="mb-20">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Projects</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {projects.map((project, index) => (
-                        <Card key={index}>
-                            <CardHeader>
-                                <CardTitle>{project.title}</CardTitle>
-                                <CardDescription>{project.description}</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <Button onClick={() => window.location.href = project.link}>
-                                    View Project
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            </section>
-
 
         </main>
     );

@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Tools from "./pages/Tools";
 import BlogPost from "./pages/BlogPost";
+import TeamGen from "./pages/TeamGen";
 
 const AppRoutes = () => {
     return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
                             <Route path="/blogs/:slug" element={<BlogPost/>}/>
                             <Route path="/tools" element={<Tools/>}/>
                             <Route path="/projects" element={<Projects/>}/>
+                            <Route path="/team-gen" element={<TeamGen/>}/>
                         </Routes>
                         <Footer/>
                     </div>
