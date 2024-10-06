@@ -1,18 +1,56 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "../components/ui/card";
+import {Badge} from "../components/ui/badge";
+
+// This would typically come from your backend or a static file
+const blogPosts = [
+    {
+        id: 1,
+        title: "Getting Started with React",
+        date: "2023-05-15",
+        tags: ["React", "JavaScript", "Web Development"],
+        slug: "getting-started-with-react"
+    },
+    {
+        id: 2,
+        title: "Advanced TypeScript Techniques",
+        date: "2023-06-22",
+        tags: ["TypeScript", "JavaScript", "Programming"],
+        slug: "advanced-typescript-techniques"
+    },
+    // Add more blog posts here
+];
 
 const Blogs = () => {
     return (
-        <section className="flex flex-col self-center mt-20 max-w-full text-zinc-950 w-[1255px] max-md:mt-10">
-            <h1 className="self-start text-4xl font-bold tracking-tighter leading-none">
-                About me
-            </h1>
-            <p className="self-start mt-8 text-2xl font-light leading-7 max-md:max-w-full">
-                Hello! I'm Tushar Naik, a software engineer passionate about designing scalable backend systems and solving complex computing problems. I've been grateful to have worked on several challenging projects in my career spanning over 10 years. I'm currently working as an Architect at PhonePe.com
-                <br />
-                <br />
-                I sometimes enjoy building minimal frontend tools. The list below might find some use to
-            </p>
-            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c808885133ce7ca51f1067864812c430f13810487708fb0cf0abe104191dcdaf?placeholderIfAbsent=true&apiKey=8fcf9513f60c4af5b059c6e2158ad4f4" alt="Illustration related to software engineering" className="object-contain self-end mt-28 max-w-full aspect-[1.69] w-[1200px] max-md:mt-10" />
+        <section className="mt-10">
+            <div className="flex flex-col self-center mt-20 mb-20 max-w-full text-zinc-950 w-[1255px] max-md:mt-10">
+                <h1 className="text-4xl font-bold mb-6 self-start tracking-tighter leading-none">Blog Posts</h1>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {blogPosts.map((post) => (
+                        <Card key={post.id}>
+                            <CardHeader>
+                                <CardTitle>
+                                    <Link to={`/blogs/${post.slug}`} className="hover:underline">
+                                        {post.title}
+                                    </Link>
+                                </CardTitle>
+                                <CardDescription>{post.date}</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex flex-wrap gap-2">
+                                    {post.tags.map((tag) => (
+                                        <Badge key={tag} variant="secondary">
+                                            {tag}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+            </div>
         </section>
     );
 };

@@ -6,6 +6,7 @@ import Projects from './pages/Projects';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Tools from "./pages/Tools";
+import BlogPost from "./pages/BlogPost";
 
 const AppRoutes = () => {
     return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
                         <Routes>
                             <Route path="/" element={<Home/>}/>
                             <Route path="/blogs" element={<Blogs/>}/>
+                            <Route path="/blogs/:slug" element={<BlogPost/>}/>
                             <Route path="/tools" element={<Tools/>}/>
                             <Route path="/projects" element={<Projects/>}/>
                         </Routes>
