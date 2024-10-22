@@ -14,6 +14,7 @@ const aboutMe = <>
 
 const Home = () => {
     const [scrollY, setScrollY] = useState(0);
+    const [scrollCount, setScrollCount] = useState(0);
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const [easterEggDiscovered, setEasterEggDiscovered] = useState(false);
     const scrollTimeout = useRef(null);
@@ -34,7 +35,7 @@ const Home = () => {
             // Set a new timeout
             scrollTimeout.current = setTimeout(() => {
                 setScrollCount(prevCount => {
-                    console.log("Scroll attempt:", prevCount + 1);
+                    console.log("Scroll attempt:", prevCount + 1 + " " + scrollCount);
                     if (prevCount + 1 >= 5 && !easterEggDiscovered) {
                         setShowEasterEgg(true);
                         setEasterEggDiscovered(true);

@@ -63,6 +63,7 @@ const TeamGen = () => {
     const [manualInput, setManualInput] = useState('');
     const [activeTab, setActiveTab] = useState('manual');
     // const [darkMode, setDarkMode] = useState(false);
+    const darkMode= false;
     const {CSVReader} = useCSVReader();
 
     const skillLevels = useMemo(() =>
