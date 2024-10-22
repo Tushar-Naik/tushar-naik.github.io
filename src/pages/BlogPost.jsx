@@ -9,26 +9,6 @@ import {format} from 'date-fns';
 import {Badge} from '../components/ui/badge';
 import 'highlight.js/styles/github-dark-dimmed.min.css'; // Importing highlight.js theme
 import {CopyToClipboard} from '../components/ui/copy-to-clipboard';
-import {clsx} from "clsx";
-
-
-const CustomCodeBlock = ({node, inline, className, children, ...props}) => {
-    const language = /language-(\w+)/.exec(className || '')?.[1];
-    return !inline ? (
-        <pre className={clsx(
-            "bg-gray-900 text-gray-100 p-4 rounded-md shadow-md overflow-auto",
-            className
-        )}>
-      <code {...props} className={clsx("language-", language)}>
-        {children}
-      </code>
-    </pre>
-    ) : (
-        <code className="bg-gray-800 text-green-400 p-1 rounded-sm">
-            {children}
-        </code>
-    );
-};
 
 
 function BlogPost() {
@@ -60,18 +40,18 @@ function BlogPost() {
         <div className={cn('container mx-auto px-4 py-8 md:py-12', 'prose dark:prose-invert text-sm')}>
             {metadata && (
                 <div className="mb-4 mt-10">
-                    <div className="flex justify-end">
-                        <h1 className="text-4xl font-bold mb-2 justify-end">{metadata.title}</h1>
+                    <div className="flex">
+                        <h1 className="text-5xl font-bold tracking-tighter mb-2">{metadata.title}</h1>
                     </div>
 
-                    <div className="flex justify-end text-sm text-gray-600 mb-4">
+                    <div className="flex text-sm text-gray-600 mb-4">
                         <span>{metadata.author}</span>
                         <span className="mx-2">•</span>
                         <time dateTime={metadata.date}>{format(new Date(metadata.date), 'MMMM d, yyyy')}</time>
                         <span className="mx-2">•</span>
                         <span>{metadata.readingTime} min read</span>
                     </div>
-                    <div className="flex justify-end flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2">
                         {metadata.tags.map((tag) => (
                             <Badge key={tag} variant="secondary">
                                 {tag}
@@ -86,8 +66,18 @@ function BlogPost() {
                 <ReactMarkdown
                     rehypePlugins={[rehypeRaw, rehypeHighlight]}
                     components={{
+                        h1: ({ node, ...props }) => <h1 className="text-4xl tracking-tighter font-bold mt-6 mb-4" {...props} />,
+                        h2: ({ node, ...props }) => <h2 className="text-3xl font-semibold mt-5 mb-3" {...props} />,
+                        h3: ({ node, ...props }) => <h3 className="text-2xl font-medium mt-4 mb-2" {...props} />,
+                        h4: ({ node, ...props }) => <h4 className="text-xl font-medium mt-3 mb-2" {...props} />,
+                        h5: ({ node, ...props }) => <h5 className="text-lg font-medium mt-3 mb-2" {...props} />,
+                        h6: ({ node, ...props }) => <h6 className="text-base font-medium mt-3 mb-2" {...props} />,
+                        p: ({ node, ...props }) => <p className="text-lg font-light" {...props} />,
+                        li: ({ node, ...props }) => <li className="text-lg font-light ml-8" {...props} />,
+                        img: ({ node, ...props }) => <img className="max-w-full h-auto my-4" {...props} />,
                         code({node, inline, className, children, ...props}) {
                             const match = /language-(\w+)/.exec(className || '');
+                            debugger;
                             return !inline && match ? (
                                 <div className="relative group">
                                     <CopyToClipboard content={String(children).replace(/\n$/, '')}/>
@@ -96,9 +86,10 @@ function BlogPost() {
                                     </code>
                                 </div>
                             ) : (
+
                                 <code
                                     className={cn('bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded text-sm', className)} {...props}>
-                                    {children}
+                                    {children.replace("`", "")}
                                 </code>
                             );
                         },

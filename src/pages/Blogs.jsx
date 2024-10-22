@@ -7,17 +7,10 @@ import {Badge} from "../components/ui/badge";
 const blogPosts = [
     {
         id: 1,
-        title: "Getting Started with React",
-        date: "2023-05-15",
-        tags: ["React", "JavaScript", "Web Development"],
-        slug: "getting-started-with-react"
-    },
-    {
-        id: 2,
-        title: "Advanced TypeScript Techniques",
-        date: "2023-06-22",
-        tags: ["TypeScript", "JavaScript", "Programming"],
-        slug: "advanced-typescript-techniques"
+        title: "The Terminal",
+        date: "2024-10-21",
+        tags: ["Shell", "Bash",  "Scripting", "Programming"],
+        slug: "terminal-blog"
     },
     // Add more blog posts here
 ];

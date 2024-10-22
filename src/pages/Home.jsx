@@ -80,7 +80,7 @@ const Home = () => {
 
     return (
         <section className="flex flex-col self-center mt-20 mb-20 max-w-full text-zinc-950 w-[1255px] max-md:mt-10">
-            <h1 className="self-start text-4xl font-bold tracking-tighter leading-none">
+            <h1 className="self-start text-5xl font-bold tracking-tighter leading-none">
                 About me
             </h1>
             <p className="self-start mt-8 text-lg font-light text-foreground leading-7 max-md:max-w-full ">
