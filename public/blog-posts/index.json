@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "The Terminal",
+    "date": "2024-10-21",
+    "lastUpdated": "2024-10-21",
+    "author": "Tushar Naik",
+    "excerpt": "Setting up your perfect Terminimal to boost your productivity",
+    "readingTime": 12,
+    "tags": [
+      "Shell",
+      "Bash",
+      "Scripting",
+      "Productivity"
+    ],
+    "slug": "terminal-blog"
+  }
+]

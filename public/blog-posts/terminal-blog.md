@@ -1,11 +1,14 @@
 ---
 {
+  "id": 1,
   "title": "The Terminal",
   "date": "2024-10-21",
-  "tags": [ "Shell", "Bash", "Scripting", "Programming" ],
+  "lastUpdated": "2024-10-21",
   "author": "Tushar Naik",
+  "excerpt": "Setting up your perfect Terminimal to boost your productivity",
   "readingTime": 12,
-  "lastUpdated": "2024-10-21"
+  "tags": ["Shell", "Bash",  "Scripting", "Productivity"],
+  "slug": "terminal-blog"
 }
 ---
 
@@ -23,7 +26,7 @@ occasional:
 - "ssh into this machine and count how many requests have failed"
 
 Jotted below is a list of useful tools, scripts and productivity hacks I've collected over the years for a better
-terminal experience. And the irony here being, they all try to reduce the amount of time I spend on the terminal.
+terminal experience (I call it **Terminimal**). And the irony here being, they all try to reduce the amount of time I spend on the terminal.
 
 I also know that you would have accumulated a nice set of shiny buckles for your tool-belt. I would like to hear about
 the best ones that you live by (write to me @tushar.knaik@gmail.com)
@@ -46,6 +49,7 @@ the best ones that you live by (write to me @tushar.knaik@gmail.com)
 
 ##### What can you expect while reading this blog:
 I start with the [Setup](#the-setup). And then move to the individual [Tools](#the-tools), settings and scripts over them.
+
 In each, I don't describe the tool, its installation guide, how cool it is, yada yada. 
 I'm pretty sure their individual sites / git pages do a better job. I'll restrict it to why I found it good,
 or if I've done something extra to make it more useful. You could just go over something
@@ -72,14 +76,14 @@ Starting with the artillery at my disposal
 
 ## The Terminal App
 
-**iterm2** is my choice here. Adding to my point from the previous section, I am definitely not asking you to switch.
+**[iterm2](https://iterm2.com/)** is my choice here. Adding to my point from the previous section, I am definitely not asking you to switch.
 I am also not planning on listing out the cool features it has. But here are few aspects I like:
 
 - Full control on appearance, I like it minimal and slightly translucent.
 - I am a heavy user of the Split pane. <br>
   _Some of you may point out that this goes against my earlier premise, of single-focus-do-one-thing-at-a-time. I follow
   a tab split several times for some branched out work related to the current task at hand, which gets closed after._
-- Search highlights, paste history,
+- Search highlights, paste history
 
 Between the built-in Mac Terminal, Tabby, Alacritty, Hyper, Warp .. you choose yours
 
@@ -87,19 +91,19 @@ Between the built-in Mac Terminal, Tabby, Alacritty, Hyper, Warp .. you choose y
 
 ### ZSH and ohMyZsh
 
-I don't favor using **fish** since my day generally involves working on production ubuntu servers. And a non POSIX compliant
-shell is not what I'd want to invest in. If you don't operate in such a predicament, or are good at remembering different
+I don't favor using **[fish](https://fishshell.com/)** since my day generally involves working on production ubuntu servers. And a non POSIX compliant
+shell is not what I'd want to invest in. If you don't operate in such a predicament, or you are good at remembering different
 commands for local and remote environments, I've heard that fish is an excellent alternative shell
 
-For me, Zsh ticks most of the boxes of being highly customizable, while being generally POSIX compliant. And there
-several plugins that give me the fish-like feel I need.
-[https://ohmyz.sh/](https://ohmyposh.dev/) is the best at managing the zsh configurations.
+For me, Zsh ticks most of the boxes of being highly customizable, while being generally POSIX compliant. And there are
+several plugins that give me the fish-like feel I need.<br>
+[https://ohmyz.sh/](https://ohmyz.sh/) is the best at managing the zsh configurations.
 
 <br>
 
 ### zinit
 
-Why would you want to keep waiting on the one thing you do 100s of times every day. I'm talking about cmd+T or new tab.
+Why would you want to keep waiting on the one thing you do 100s of times every day. I'm talking about the time it takes to load an empty window on pressing cmd+T or new tab.<br>
 [Zinit](https://github.com/zdharma-continuum/zinit) is a zshell plugin manager helps setup and install different plugins, while ensuring that your terminal remains fast.
 
 Attached below are snippets from my `~/.zshrc` to set it up correctly, along with plugins we will go over next
@@ -190,6 +194,11 @@ These were already configured using zinit, you might still want to check out add
 
 This one is gold. It remembers which directories you visit most frequently, so you can quickly get to them in just a few
 keystrokes.
+Use-case:
+1. You have your projects structured within some high level folders (`company/` , `personal/` , `opensource/`) 
+2. You typically start the terminal session in one home folder
+3. You remember the name of the project you want to go navigate to, but you need to type in the full path each time, or setup some alias for the same
+4. `zoxide` can reduce this burden
 
 ```bash
 cd ~/Documents/Company/projects/krabby-patty/server
@@ -243,8 +252,8 @@ This is a massively popular project, and an extremely powerful search tool.
 It recursively searches for regex pattern in the current directory.
 
 ```bash
-cd setu
-rg "LISTING_STOCK_CORRECT"
+cd my-cool-project
+rg "ANYTHING_UNDER_THE_SUN" # that you are trying to find in this folder
 ```
 
 [This blog](https://blog.burntsushi.net/ripgrep/#anatomy-of-a-grep) is a peach of a read, on the nerdy details of grep, 
@@ -273,7 +282,7 @@ explore(){
 }
 ```
 ![Explore](/images/demo-explore.webp)
-`fzf` can be combined with every other list based output. The next few sections use this quite often.<br>
+`fzf` can be combined with every other list based output. The next few sections use this extensively.<br>
 This command probably deserves a blog of its own, maybe another day. I'll link it here when that is ready. 
 
 <br>
@@ -364,3 +373,11 @@ jq '.[] | "Title: \(.title)\nURL: \(.url)\nScore: \(.score)\nAuthor: \(.author)\
 ```
 
 <br>
+
+<hr>
+
+## References
+1. [Awesome-bash](https://github.com/awesome-lists/awesome-bash) and [Awesome-shell](https://github.com/alebcay/awesome-shell)
+2. [DreamsofAutonomy](https://www.youtube.com/@dreamsofautonomy) and his Video on [zsh config](https://www.youtube.com/watch?v=ud7YxC33Z3w&ab_channel=DreamsofAutonomy). I encourage you to watch his other videos.
+
+[//]: # (3. [fzf]&#40;https://github.com/junegunn/fzf&#41; honestly, this inspired me to )
