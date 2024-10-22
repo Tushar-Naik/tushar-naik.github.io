@@ -48,7 +48,6 @@ const Home = () => {
                 clearTimeout(scrollTimeout.current);
             }
         }
-        console.log(scrollCount);
     }, [easterEggDiscovered]);
 
     const handleEscapeKey = useCallback((event) => {
@@ -78,6 +77,8 @@ const Home = () => {
     const handleCloseEasterEgg = () => {
         setShowEasterEgg(false);
     };
+
+    console.log(scrollCount);
 
     return (
         <section className="flex flex-col self-center mt-20 mb-20 max-w-full text-zinc-950 w-[1255px] max-md:mt-10">
