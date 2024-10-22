@@ -14,7 +14,6 @@ const aboutMe = <>
 
 const Home = () => {
     const [scrollY, setScrollY] = useState(0);
-    const [scrollCount, setScrollCount] = useState(0);
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const [easterEggDiscovered, setEasterEggDiscovered] = useState(false);
     const scrollTimeout = useRef(null);

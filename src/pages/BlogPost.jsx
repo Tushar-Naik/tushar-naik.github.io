@@ -25,7 +25,7 @@ function BlogPost() {
                     throw new Error('Network response was not ok');
                 }
                 const text = await response.text();
-                const [_, meta, content] = text.split(/---\n/);
+                const [, meta, content] = text.split(/---\n/);
                 setMetadata(JSON.parse(meta));
                 setMarkdownContent(content);
 
@@ -128,7 +128,7 @@ function BlogPost() {
                             h6: ({node, ...props}) => <h6 className="text-base font-medium mt-3 mb-2" {...props} />,
                             p: ({node, ...props}) => <p className="text-lg font-light" {...props} />,
                             li: ({node, ...props}) => <li className="text-lg font-light ml-8" {...props} />,
-                            img: ({node, ...props}) => <img className="max-w-full h-auto my-4" {...props} />,
+                            img: ({node, ...props}) => <img className="max-w-full h-auto my-4" {...props} alt={props.alt || "Blog post illustration"}/>,
                             code: ({node, inline, className, children, ...props}) => {
                                 const match = /language-(\w+)/.exec(className || '');
                                 return !inline && match ? (
