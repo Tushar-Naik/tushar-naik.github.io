@@ -70,7 +70,7 @@ Starting with the artillery at my disposal
 <br>
 <br>
 
-### The Terminal App
+## The Terminal App
 
 **iterm2** is my choice here. Adding to my point from the previous section, I am definitely not asking you to switch.
 I am also not planning on listing out the cool features it has. But here are few aspects I like:
@@ -93,7 +93,7 @@ commands for local and remote environments, I've heard that fish is an excellent
 
 For me, Zsh ticks most of the boxes of being highly customizable, while being generally POSIX compliant. And there
 several plugins that give me the fish-like feel I need.
-https://ohmyz.sh/ is the best at managing the zsh configurations.
+[https://ohmyz.sh/](https://ohmyposh.dev/) is the best at managing the zsh configurations.
 
 <br>
 
@@ -153,8 +153,8 @@ p10k configure
 ```
 
 Unfortunately, it is worth noting that this particular project is no more active.<br>
-https://ohmyposh.dev/ is the next alternative that allows you to do the same thing. <br>
-https://starship.rs/ - but i found this to be very distracting
+[https://ohmyposh.dev/](https://ohmyposh.dev/) is the next alternative that allows you to do the same thing. <br>
+[https://starship.rs/](https://ohmyposh.dev/) - but i found this to be very distracting
 
 <br>
 <br>
@@ -173,17 +173,16 @@ By the end, my setup looks like this
 <hr>
 <br>
 
-# The Tools
+# The TOOLS
 <br>
 
 ### Basic zsh plugins
 
 These were already configured using zinit, you might still want to check out additional settings/capabilities for each
 
-1. zsh-syntax-highlighting - a **fish** like syntax highlighter for
-   zsh (https://github.com/zsh-users/zsh-syntax-highlighting)
-2. zsh-completions - https://github.com/zsh-users/zsh-completions
-3. zsh-autosuggestions - fish like autosuggestions  https://github.com/zsh-users/zsh-autosuggestions
+1. [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) - a **fish** like syntax highlighter for zsh 
+2. [zsh-completions](https://github.com/zsh-users/zsh-completions) - for completions
+3. [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) - **fish** like autosuggestions  
 
 <br>
 
