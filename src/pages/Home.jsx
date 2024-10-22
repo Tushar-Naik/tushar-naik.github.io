@@ -35,7 +35,7 @@ const Home = () => {
             // Set a new timeout
             scrollTimeout.current = setTimeout(() => {
                 setScrollCount(prevCount => {
-                    console.log("Scroll attempt:", prevCount + 1 + " " + scrollCount);
+                    console.log("Scroll attempt:", prevCount + 1);
                     if (prevCount + 1 >= 5 && !easterEggDiscovered) {
                         setShowEasterEgg(true);
                         setEasterEggDiscovered(true);
@@ -48,6 +48,7 @@ const Home = () => {
                 clearTimeout(scrollTimeout.current);
             }
         }
+        console.log(scrollCount);
     }, [easterEggDiscovered]);
 
     const handleEscapeKey = useCallback((event) => {
