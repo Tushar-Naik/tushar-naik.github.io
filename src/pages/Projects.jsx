@@ -19,6 +19,21 @@ const projects = [
         description: "In-memory Search made Easy",
         link: "https://github.com/livetheoogway/forage"
     },
+    {
+        title: "Python Ranger",
+        description: "A service discovery implementation in python",
+        link: "https://github.com/Tushar-Naik/python-ranger"
+    },
+    {
+        title: "String-Extractor",
+        description: "Think of templating engines in reverse. A library to help extract substrings from within a string, that match a regex",
+        link: "https://github.com/Tushar-Naik/string-extractor"
+    },
+    {
+        title: "Teflon",
+        description: "Task Execution Framework with Little Orchestration Needed",
+        link: "https://github.com/livetheoogway/teflon"
+    },
 ];
 const Projects = () => {
     return (

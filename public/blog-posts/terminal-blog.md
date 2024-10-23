@@ -8,7 +8,8 @@
   "excerpt": "Setting up your perfect Terminimal to boost your productivity",
   "readingTime": 12,
   "tags": ["Shell", "Bash",  "Scripting", "Productivity"],
-  "slug": "terminal-blog"
+  "slug": "terminal-blog",
+  "toc": true
 }
 ---
 
@@ -57,7 +58,7 @@ like [Awesome-shell](https://github.com/alebcay/awesome-shell),
 but that is like the dictionary. Here, I focus on the ones that had most impact to my productivity.
 
 While I list the systems and apps I use to achieve the experience I desire, you must know that they are just the means
-of achieving it, nothing more. 
+of achieving it, nothing more. If you already happy with your setup, you might the Tools section more interesting.
 
 
 <br>

@@ -90,7 +90,7 @@ function BlogPost() {
 
     return (
         <>
-            <TableOfContents/>
+            {metadata && metadata.toc === true && <TableOfContents/>}
             <div className={cn('container mx-auto px-4 py-8 md:py-12', 'prose dark:prose-invert text-sm')}>
                 {metadata && (
                     <div className="mb-4 mt-10">
